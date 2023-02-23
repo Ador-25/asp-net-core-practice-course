@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,8 @@ namespace practice_course
         // use routing before using endpoints
         // at first only 2 were used -> devexceptionpage & run
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            ILogger<Startup> logger)
         {
 
             
@@ -87,12 +89,25 @@ namespace practice_course
             app.UseStaticFiles();
             app.Use(async (context,next) => 
             {
-                await context.Response.WriteAsync("Hello World! 1st");
+                logger.LogInformation("MW1: req");
                 await next();
+                logger.LogInformation("MW1: res");
             });
+
+            app.Use(async (context, next) =>
+            {
+                logger.LogInformation("MW2: req");
+                await next();
+                logger.LogInformation("MW2: res");
+            });
+
+
+
+
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World! 2nd");
+                await context.Response.WriteAsync("REQ HANDLED AND RESPONSE SENT");
+                logger.LogInformation("REQ HANDLED AND RESPONSE SENT");
             }
             );
         } 
