@@ -1,0 +1,12 @@
+﻿Asp .Net Core
+	* Cross Platform
+	* Host - IAS/Apache/Docker
+	* IActionResult -> Interface that has different implementations
+						ViewResult,JsonResult
+	
+Templates
+	asp .net core web applications - Empty
+	web api - Api
+	mvc - Built in MVC support
+	web application - Razor Pages framework(minimal version of MVC)
+	razor class library -  Reusable UI

@@ -53,30 +53,16 @@ namespace practice_course
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                DeveloperExceptionPageOptions dev = 
+                    new DeveloperExceptionPageOptions() 
+                    { 
+                        SourceCodeLineCount = 20
+                    };
+      
+                app.UseDeveloperExceptionPage(dev);
             }
-
-            /*            app.UseRouting();
-
-                        app.UseEndpoints(endpoints =>
-                        {
-                            endpoints.MapGet("/", async context =>
-                            {
-                                await context.Response
-                                .WriteAsync(
-                                    System.Diagnostics.Process.GetCurrentProcess().ProcessName + "\n");
-
-                                await context
-                                .Response
-                                .WriteAsync(_config["MyKey"]);
-                            });
-
-                        });*/
-
 
             // if no other thing with only 2 middlewares in start all requests will be handled by this
             // https://localhost:44378/ => returns hello world
@@ -85,15 +71,37 @@ namespace practice_course
             // https://localhost:44378/foo.html => returns hello world
             // but app.UseStaticFiles  will return the actual foo.html!
             //
-            DefaultFilesOptions df = new DefaultFilesOptions();
+            /*            DefaultFilesOptions df = new DefaultFilesOptions();
+                        df.DefaultFileNames.Clear();
+                        df.DefaultFileNames.Add("foo.html");
+                        app.UseDefaultFiles(df);*/
+            //app.UseStaticFiles();
+
+/*            DefaultFilesOptions df = new DefaultFilesOptions();
             df.DefaultFileNames.Clear();
-            df.DefaultFileNames.Add("foo.html");
-            app.UseDefaultFiles(df);
-            app.UseStaticFiles();
+            df.DefaultFileNames.Add("foo.html");*/
+            FileServerOptions fileServerOptions = new FileServerOptions();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
+            app.UseFileServer(fileServerOptions);
+            
+
+            // prevent from images?
+/*            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.StartsWithSegments("/images"))
+                {
+                    context.Response.StatusCode = 404;
+                    return;
+                }
+
+                await next();
+            });*/
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("REQ HANDLED AND RESPONSE SENT");
-               
+                //throw new Exception("ERR");
+                await context.Response.WriteAsync(
+                    "REQ HANDLED AND RESPONSE SENT"); 
             });
         } 
     }
