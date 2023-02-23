@@ -51,8 +51,7 @@ namespace practice_course
         // use routing before using endpoints
         // at first only 2 were used -> devexceptionpage & run
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             
@@ -61,22 +60,22 @@ namespace practice_course
                 app.UseDeveloperExceptionPage();
             }
 
-/*            app.UseRouting();
+            /*            app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response
-                    .WriteAsync(
-                        System.Diagnostics.Process.GetCurrentProcess().ProcessName + "\n");
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapGet("/", async context =>
+                            {
+                                await context.Response
+                                .WriteAsync(
+                                    System.Diagnostics.Process.GetCurrentProcess().ProcessName + "\n");
 
-                    await context
-                    .Response
-                    .WriteAsync(_config["MyKey"]);
-                });
+                                await context
+                                .Response
+                                .WriteAsync(_config["MyKey"]);
+                            });
 
-            });*/
+                        });*/
 
 
             // if no other thing with only 2 middlewares in start all requests will be handled by this
@@ -84,32 +83,18 @@ namespace practice_course
             // https://localhost:44378/abc => returns hello world
             // https://localhost:44378/xyz => returns hello world
             // https://localhost:44378/foo.html => returns hello world
-            // but app.UseStaticFiles will return the actual foo.html!
+            // but app.UseStaticFiles  will return the actual foo.html!
             //
+            DefaultFilesOptions df = new DefaultFilesOptions();
+            df.DefaultFileNames.Clear();
+            df.DefaultFileNames.Add("foo.html");
+            app.UseDefaultFiles(df);
             app.UseStaticFiles();
-            app.Use(async (context,next) => 
-            {
-                logger.LogInformation("MW1: req");
-                await next();
-                logger.LogInformation("MW1: res");
-            });
-
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("MW2: req");
-                await next();
-                logger.LogInformation("MW2: res");
-            });
-
-
-
-
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("REQ HANDLED AND RESPONSE SENT");
-                logger.LogInformation("REQ HANDLED AND RESPONSE SENT");
-            }
-            );
+               
+            });
         } 
     }
 }
