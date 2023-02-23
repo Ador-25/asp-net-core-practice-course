@@ -32,14 +32,34 @@ namespace practice_course
 
 
         //app.use comes here
+
+        // middlewares used here
+        // has access to both incoming req & outgoing res
+        // may simply pass it to next comp=> short circuiting 
+        // may do some process & then pass =>
+        // may handle the request & short circuit the rest of the pipeline
+        // may process outgoing response as well
+        // performs in the order they were in the pipeline
+
+
+
+
+
+        // configure the request processing pipeline 
+
+        // use routing before using endpoints
+        // at first only 2 were used -> devexceptionpage & run
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+/*            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
@@ -47,14 +67,34 @@ namespace practice_course
                 {
                     await context.Response
                     .WriteAsync(
-                        System.Diagnostics.Process.GetCurrentProcess().ProcessName+"\n");
+                        System.Diagnostics.Process.GetCurrentProcess().ProcessName + "\n");
 
                     await context
                     .Response
                     .WriteAsync(_config["MyKey"]);
                 });
 
+            });*/
+
+
+            // if no other thing with only 2 middlewares in start all requests will be handled by this
+            // https://localhost:44378/ => returns hello world
+            // https://localhost:44378/abc => returns hello world
+            // https://localhost:44378/xyz => returns hello world
+            // https://localhost:44378/foo.html => returns hello world
+            // but app.UseStaticFiles will return the actual foo.html!
+            //
+            app.UseStaticFiles();
+            app.Use(async (context,next) => 
+            {
+                await context.Response.WriteAsync("Hello World! 1st");
+                await next();
             });
-        }
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World! 2nd");
+            }
+            );
+        } 
     }
 }
