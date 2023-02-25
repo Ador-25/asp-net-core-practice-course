@@ -25,7 +25,7 @@ namespace practice_course
         // services.add comes here
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddMvc(option => option.EnableEndpointRouting = false);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,31 +77,25 @@ namespace practice_course
                         app.UseDefaultFiles(df);*/
             //app.UseStaticFiles();
 
-/*            DefaultFilesOptions df = new DefaultFilesOptions();
-            df.DefaultFileNames.Clear();
-            df.DefaultFileNames.Add("foo.html");*/
-            FileServerOptions fileServerOptions = new FileServerOptions();
+            /*            DefaultFilesOptions df = new DefaultFilesOptions();
+                        df.DefaultFileNames.Clear();
+                        df.DefaultFileNames.Add("foo.html");*/
+            /*FileServerOptions fileServerOptions = new FileServerOptions();
             fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
             fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
-            app.UseFileServer(fileServerOptions);
-            
+            app.UseFileServer(fileServerOptions);   // alternative => use static files?*/
+            // learn how to block certain file directories
+            // & create new ones
+            // & maybe authorization?
 
-            // prevent from images?
-/*            app.Use(async (context, next) =>
-            {
-                if (context.Request.Path.StartsWithSegments("/images"))
-                {
-                    context.Response.StatusCode = 404;
-                    return;
-                }
 
-                await next();
-            });*/
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();   // doesnt have ctrl Home and Action Index
             app.Run(async (context) =>
             {
                 //throw new Exception("ERR");
                 await context.Response.WriteAsync(
-                    "REQ HANDLED AND RESPONSE SENT"); 
+                    "Hello Again!"); 
             });
         } 
     }
