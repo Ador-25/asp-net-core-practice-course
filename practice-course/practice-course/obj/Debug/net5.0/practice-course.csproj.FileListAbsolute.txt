@@ -20,4 +20,3 @@ D:\My Projects\Github Projects\asp-net-core-practice-course\practice-course\prac
 D:\My Projects\Github Projects\asp-net-core-practice-course\practice-course\practice-course\obj\Debug\net5.0\practice-course.genruntimeconfig.cache
 D:\My Projects\Github Projects\asp-net-core-practice-course\practice-course\practice-course\obj\Debug\net5.0\staticwebassets\practice-course.StaticWebAssets.xml
 D:\My Projects\Github Projects\asp-net-core-practice-course\practice-course\practice-course\bin\Debug\net5.0\ref\practice-course.dll
-D:\My Projects\Github Projects\asp-net-core-practice-course\practice-course\practice-course\obj\Debug\net5.0\practice-course.csprojAssemblyReference.cache

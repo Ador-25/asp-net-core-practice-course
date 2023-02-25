@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace practice_course.Controllers
 {
-    public class HomeController
+    public class HomeController:Controller
     {
-        public string Index()
+        public JsonResult Index()
         {
-            return "HELLO FROM MVC!";
+            return Json(
+                new
+                {
+                    status = "Success",
+                    message= "Response Text"
+                }
+                );
         }
     }
 }
