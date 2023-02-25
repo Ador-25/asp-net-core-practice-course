@@ -26,6 +26,10 @@ namespace practice_course
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
+
+            // AddSingleton() => instance created only once and used throughout the lifetime
+            // AddTransient() => a new instance is created every time service is required/ it is requested
+            // AddScoped() => a new instance of scope service is created once per req(one per http request often)
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
