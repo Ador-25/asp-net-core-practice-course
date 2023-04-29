@@ -25,6 +25,7 @@ namespace practice_course
         // services.add comes here
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor(); // test for http reqs
             services.AddMvc(option => option.EnableEndpointRouting = false);
 
             // AddSingleton() => instance created only once and used throughout the lifetime
@@ -55,7 +56,7 @@ namespace practice_course
         // use routing before using endpoints
         // at first only 2 were used -> devexceptionpage & run
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -67,6 +68,7 @@ namespace practice_course
       
                 app.UseDeveloperExceptionPage(dev);
             }
+
 
             // if no other thing with only 2 middlewares in start all requests will be handled by this
             // https://localhost:44378/ => returns hello world
@@ -92,14 +94,30 @@ namespace practice_course
             // & create new ones
             // & maybe authorization?
 
-
+            
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();   // doesnt have ctrl Home and Action Index
+            //app.UseMvcWithDefaultRoute();   // doesnt have ctrl Home and Action Index
+            app.Use(async (context,next) =>
+            {
+                logger.LogInformation("mw1 in");
+                await context.Response.WriteAsync(
+                   "default");
+                await next();
+                logger.LogInformation("mw1 out");
+            });
+            app.Use(async (context, next) =>
+            {
+                logger.LogInformation("mw2 in");
+                await context.Response.WriteAsync(
+                   "mid");
+                await next();
+                logger.LogInformation("mw2 out");
+            });
             app.Run(async (context) =>
             {
-                //throw new Exception("ERR");
                 await context.Response.WriteAsync(
-                    "Hello Again!"); 
+                   "next");
+                logger.LogInformation("mw3 in and out");
             });
         } 
     }

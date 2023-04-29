@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace practice_course
 {
+    // contains main method
+    // .net initially starts as console app
+    // main configs and start as web app
     public class Program
     {
         public static void Main(string[] args)
@@ -28,7 +31,7 @@ namespace practice_course
         // Startup class => configures services required by the app
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+            Host.CreateDefaultBuilder(args)     // calls UseIIS behind
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

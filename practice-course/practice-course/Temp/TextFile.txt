@@ -1,6 +1,6 @@
 ﻿Asp .Net Core
 	* Cross Platform
-	* Host - IAS/Apache/Docker
+	* Host - IIS/Apache/Docker
 	* IActionResult -> Interface that has different implementations
 						ViewResult,JsonResult
 	
