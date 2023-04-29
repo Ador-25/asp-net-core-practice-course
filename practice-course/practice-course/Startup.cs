@@ -67,6 +67,7 @@ namespace practice_course
                     };
       
                 app.UseDeveloperExceptionPage(dev);
+                
             }
 
 
