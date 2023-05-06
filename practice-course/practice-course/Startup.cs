@@ -98,27 +98,11 @@ namespace practice_course
             
             app.UseStaticFiles();
             //app.UseMvcWithDefaultRoute();   // doesnt have ctrl Home and Action Index
-            app.Use(async (context,next) =>
-            {
-                logger.LogInformation("mw1 in");
-                await context.Response.WriteAsync(
-                   "default");
-                await next();
-                logger.LogInformation("mw1 out");
-            });
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation("mw2 in");
-                await context.Response.WriteAsync(
-                   "mid");
-                await next();
-                logger.LogInformation("mw2 out");
-            });
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync(
-                   "next");
-                logger.LogInformation("mw3 in and out");
+                   System.Diagnostics.Process.GetCurrentProcess().ProcessName);
             });
         } 
     }

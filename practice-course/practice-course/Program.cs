@@ -16,6 +16,7 @@ namespace practice_course
     {
         public static void Main(string[] args)
         {
+            // starts as a console app
             CreateHostBuilder(args).Build().Run();
         }
 
